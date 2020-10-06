@@ -7,7 +7,7 @@
 #include <curses.h>
 
 #include <arduino.h>
-#include <menu.h>
+#include <external_sensor.h>
 
 #define POTENTIOMETER_ON "On"
 #define POTENTIOMETER_OFF "Off"
@@ -54,6 +54,8 @@ int main(void) {
 
     /* pthread_create(&potentiometer_tid, NULL, potentiometer_thread, (void *)&POTENTIOMETER_VALUE); */
     pthread_create(&internal_sensor_tid, NULL, internal_sensor_thread, (void *)&INTERNAL_SENSOR_VALUE);
+    pthread_create(&external_sensor_tid, NULL, external_sensor_thread, (void *)&EXTERNAL_SENSOR_VALUE);
+
     /* pthread_create(&input_tid, NULL, input_thread, (void *)&option); */
     
     while(1) {

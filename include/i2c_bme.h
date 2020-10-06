@@ -11,6 +11,11 @@
 
 #define CSV_FORMAT "%f, %f, %f, %02d/%02d/%02d:%02d:%02d:%02d\n"
 
+struct identifier {
+    uint8_t dev_addr;
+    int8_t fd;
+};
+
 int8_t i2c_read(uint8_t reg_addr, uint8_t *data, uint32_t len, void *intf_ptr) {
     struct identifier id = *((struct identifier *)intf_ptr);
 
@@ -41,7 +46,6 @@ int8_t i2c_write(uint8_t reg_addr, const uint8_t *data, uint32_t len, void *intf
 
 void delay_us(uint32_t period, void *intf_ptr) {
     usleep(period);
-    sleep(1);
 }
 
 void print_sensor_data(struct bme280_data *complete_data) {
