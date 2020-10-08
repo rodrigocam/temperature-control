@@ -18,7 +18,7 @@ void* potentiometer_thread(void* potentiometer) {
 }
 
 void* internal_sensor_thread(void* internal_sensor) {
-    Uart uart = new_uart(INTERNAL_SENSOR_SERIAL_BUS);
+    Uart uart = new_uart(POTENTIOMETER_SERIAL_BUS);
 
     while(1) {
         *(float *) internal_sensor = get_float(&uart, CODE_GET_INTERNAL_TEMPERATURE);

@@ -42,21 +42,23 @@ Uart new_uart(char* serial_bus) {
     return uart;
 }
 
-void send_package(Uart* uart, unsigned char* package, int package_size) {
-    const int writed_size = write(uart->file_descriptor, package, package_size); 
+void send_package(Uart* uart, unsigned char* package, size_t package_size) {
+    char t_package[5] = {0xA1, 1,3,9,9};
+    const int writed_size = write(uart->file_descriptor, &t_package[0], package_size); 
     
+    /* fprintf(stderr, "fd %d\n", uart->file_descriptor); */
     if(writed_size < 0) {
         fprintf(stderr, "Failed to send package, error number %d:  `%s`\n", errno, strerror(errno));
         exit(1);
     }
 
-    if(writed_size < sizeof(package_size)) {
+    if(writed_size < package_size) {
         fprintf(stderr, "Failed to send package, impossible to write the entire package content\n");
         exit(1);
     }
 }
 
-void receive_package(Uart* uart, void* response, int package_size) {
+void receive_package(Uart* uart, void* response, size_t package_size) {
     const int read_size = read(uart->file_descriptor, response, package_size);
 
     if(read_size < 0) {
@@ -74,8 +76,8 @@ float get_float(Uart* uart, char command) {
     unsigned char response[4];
     unsigned char package[5] = {command, 1, 3, 9, 9};
 
-    send_package(uart, package, PACKAGE_SIZE);
-    sleep(0.05);
+    send_package(uart, package, sizeof(package));
+    sleep(1);
     receive_package(uart, response, sizeof(float));
 
     return *((float*) response);
