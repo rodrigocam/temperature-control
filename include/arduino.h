@@ -12,19 +12,16 @@ void* potentiometer_thread(void* potentiometer) {
     Uart uart = new_uart(POTENTIOMETER_SERIAL_BUS);
 
     while(1) {
-        printf("Getting info from arduino\n");
-        *(float *) potentiometer = get_float(&uart);
+        *(float *) potentiometer = get_float(&uart, CODE_GET_POTENTIOMETER);
         sleep(POTENTIOMETER_UPDATE_RATE);
     }
 }
 
 void* internal_sensor_thread(void* internal_sensor) {
-    /* Uart uart = new_uart(INTERNAL_SENSOR_SERIAL_BUS); */
+    Uart uart = new_uart(INTERNAL_SENSOR_SERIAL_BUS);
 
     while(1) {
-        /* printf("Getting info from arduino\n"); */
-        /* *(float *) internal_sensor = get_float(&uart); */
-        *(float *) internal_sensor += 1;
+        *(float *) internal_sensor = get_float(&uart, CODE_GET_INTERNAL_TEMPERATURE);
         sleep(INTERNAL_SENSOR_UPDATE_RATE);
     }
 }
