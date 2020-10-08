@@ -43,10 +43,8 @@ Uart new_uart(char* serial_bus) {
 }
 
 void send_package(Uart* uart, unsigned char* package, size_t package_size) {
-    char t_package[5] = {0xA1, 1,3,9,9};
-    const int writed_size = write(uart->file_descriptor, &t_package[0], package_size); 
+    const int writed_size = write(uart->file_descriptor, package, package_size); 
     
-    /* fprintf(stderr, "fd %d\n", uart->file_descriptor); */
     if(writed_size < 0) {
         fprintf(stderr, "Failed to send package, error number %d:  `%s`\n", errno, strerror(errno));
         exit(1);

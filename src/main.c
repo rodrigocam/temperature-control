@@ -52,7 +52,7 @@ int main(void) {
     pthread_t external_sensor_tid;
     /* pthread_t input_tid; */
 
-    /* pthread_create(&potentiometer_tid, NULL, potentiometer_thread, (void *)&POTENTIOMETER_VALUE); */
+    pthread_create(&potentiometer_tid, NULL, potentiometer_thread, (void *)&POTENTIOMETER_VALUE);
     pthread_create(&internal_sensor_tid, NULL, internal_sensor_thread, (void *)&INTERNAL_SENSOR_VALUE);
     pthread_create(&external_sensor_tid, NULL, external_sensor_thread, (void *)&EXTERNAL_SENSOR_VALUE);
 
@@ -60,16 +60,16 @@ int main(void) {
     
     while(1) {
         /* mvprintw(row/2, col/2, "Internal Temperature: %.2f", INTERNAL_SENSOR_VALUE); */
-        mvwprintw(temperature_window, 2, 5, "Internal Temperature: %0.2f", INTERNAL_SENSOR_VALUE);
-        mvwprintw(temperature_window, 6, 5, "External Temperature: %0.2f", EXTERNAL_SENSOR_VALUE);
+        mvwprintw(temperature_window, 2, 5, "Internal Temperature: %.2f", INTERNAL_SENSOR_VALUE);
+        mvwprintw(temperature_window, 6, 5, "External Temperature: %.2f", EXTERNAL_SENSOR_VALUE);
    
         if(option == 1) {
             mvwprintw(status_window, 2, 5, "Potentiometer: %s", POTENTIOMETER_ON);
-            mvwprintw(status_window, 6, 5, "Potentiometer Value: %s", POTENTIOMETER_VALUE);
         } else {
             mvwprintw(status_window, 2, 5, "Potentiometer: %s", POTENTIOMETER_OFF);
         }
 
+        mvwprintw(status_window, 6, 5, "Potentiometer Value: %.2f", POTENTIOMETER_VALUE);
         mvwprintw(menu_window, 2, 5, "P - To switch potenciometer state");
         char ch = (int) getch();
         option = (int) ch; 
